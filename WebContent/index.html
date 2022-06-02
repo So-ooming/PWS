@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWS</title>
+    <link rel="stylesheet" href="indexCss.css">
+
+    <script>
+        var popupWidth = 400;
+        var popupHeight = 300;
+
+        var popupX = (window.screen.width / 2) - (popupWidth / 2);
+        var popupY = (window.screen.height / 2) - (popupHeight / 2);
+        function add_Category() {
+            window.open('Create_Category.html', '', 'status=no, toolbar=no, scrollbars=no, location=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+        }
+
+        function add_ToDoList() {
+            window.open('Create_ToDoList.html', '', 'status=no, toolbar=no, scrollbars=no, location=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+        }
+    </script>
+</head>
+<body>
+    <div class="indexContainer">
+        <header class="headerContainer">
+            <div class="logobox">
+                PWS
+            </div>
+
+            <div class="menubox">
+                <h1>&nbsp;</h1>
+                <ul>
+                    <li><a href="#">LOGOUT</a></li>
+                    <li><a href="#" onclick="add_Category()">카테고리</a></li>
+                    <li><a href="./Calendar/examples/month-view.html">캘린더</a></li>
+                  </ul>
+            </div>
+        </header>
+
+        <main class="mainContainer">
+            <div class="Category">
+            </div>
+            <div class="ToDoListContainer">
+                <div class="checkText"></div>
+                <div class="ToDoList"></div>
+                <div class="addToDo">
+                    <input type="button" value="+" onclick="add_ToDoList()">
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
