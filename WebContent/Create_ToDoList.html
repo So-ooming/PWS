@@ -6,25 +6,35 @@
     <title>일정 생성</title>
     <link rel="stylesheet" href="POPUP_CSS.css">
 </head>
-<div class="popupContainer">
-    <body>
+<body>
+    <div class="popupContainer">
         <form>
-            <label for="ToDoList_name">일정 내용:</label>
-            <input type="text" id="ToDoList_name" />
-            <p></p>
-
-            <label for="ToDoList_Time">마감 기한:</label>
-            <input type="datetime-local" id="ToDoList_Time" />
-            <p></p>
-
-            <label for="ToDoList_Category">카테고리 선택:</label>
-            <input type='select' id='ToDoList_Category'>
-            <p></p>
-
-            <input type="submit" value="등록">
-            <input type="button" value="취소" onClick="window.close()">
+            <table border="0" id="createTdoTable">
+                <tr>
+                    <td align="right">내용 :</td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td align="right">날짜 :</td>
+                    <td><input type="datetime-local" id=""todoTime></td>
+                </tr>
+                <tr>
+                    <td align="right">카테고리 :</td>
+                    <td>
+                        <select name="selCategory" id="selCategory">
+                            <option value="default">기본</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="등록">
+                        <input type="button" onclick="close()" value="취소">
+                    </td>
+                </tr>
+            </table>
         </form>
-</div>
+    </div>
 </body>
 
 </html>

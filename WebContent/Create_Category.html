@@ -5,24 +5,30 @@
     <meta charset="UTF-8">
     <title>카테고리 생성</title>
     <link rel="stylesheet" href="POPUP_CSS.css">
+    <script>
+        function close(){
+            window.close();
+        }
+    </script>
 </head>
 
 <body>
-    <div class="popupContainer">
-        <form>
-            <p>연결 확인 중~</p>
-            <label for="Category_name">카테고리명:</label>
-            <input type="text" id="Category_name" />
-            <p></p>
-
-            <label for="Category_Color">카테고리 색상 선택:</label>
-            <input type='color' id='Category_Color' value='#0000ff'>
-            <p></p>
-
-            <input type="submit" value="생성">
-            <input type="button" value="취소" onClick="window.close()">
-        </form>
-    </div>
+    <table border="0" id="createCategoryTable">
+        <tr>
+            <td align="right">카테고리명 :</td>
+            <td><input type="text" size="5" id="categoryName" placeholder="입력"></td>
+        </tr>
+        <tr>
+            <td align="right">색상 :</td>
+            <td><input type="color" id="categoryColor" value="#ff0000"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="생성">
+                <input type="button" onclick="close()" value="취소">
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>
