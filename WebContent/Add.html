@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>카테고리/일정 추가</title>
+    <link rel="stylesheet" href="Add.css" />
+    <link rel="shortcut icon" href="logo.ico" />
+    <script>
+      location.href = "#tab1";
+      function popUpClose(){
+        window.close();
+      }
+    </script>
+  </head>
+  <body>
+    <div class="tabmenu">
+      <ul>
+        <li id="tab1" class="btnCon">
+          <a class="btn1" href="#tab1">카테고리</a>
+          <form action="Index.html" method="get">
+            <div class="tabCon">
+              <table border="0" id="createCategory">
+                <tr>
+                  <td align="right">카테고리명 :</td>
+                  <td>
+                    <input type="text" size="5" id="categoryName" placeholder="입력"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">색상 :</td>
+                  <td>
+                    <input type="color" id="categoryColor" value="#ff0000"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="center">
+                    <input type="submit" onclick="popUpClose()" value="추가" />
+                    <input type="button" onclick="popUpClose()" value="취소" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </form>
+        </li>
+        <li id="tab2" class="btnCon">
+          <a class="btn2" href="#tab2">일정</a>
+          <div class="tabCon">
+            <table border="0" id="createTodo">
+              <tr>
+                <td align="right">내용 :</td>
+                <td><input type="text" placeholder="입력" /></td>
+              </tr>
+              <tr>
+                <td align="right">날짜 :</td>
+                <td><input type="date" id="todoTime" /></td>
+              </tr>
+              <tr>
+                <td align="right">카테고리 :</td>
+                <td>
+                  <select name="selCategory" id="selCategory">
+                    <option value="default">기본</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center">
+                  <input type="submit" value="등록" />
+                  <input type="button" onclick="popUpClose()" value="취소" />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

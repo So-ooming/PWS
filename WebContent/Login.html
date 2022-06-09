@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PWS LOGIN</title>
+</head>
+
+<body>
+   <a href="#" onclick="kakaoLogin()"><img src="../src/image/Kakao Login.png"></a>
+    <!-- 카카오 스크립트 -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+      Kakao.init('76c14855a1c7a486b0f8509613eb8a86');
+      
+      function kakaoLogin() {
+        window.Kakao.Auth.loginForm({
+          scope: 'account_email, gender',
+          throughTalk: false,
+          success: function(response) {
+            console.log(response);
+            location.href="http://127.0.0.1:5500/WebContent/index.html";
+          },
+          fail: function(error) {
+            console.log(error);
+          }
+        });
+      }
+    </script>
+</body>
+
+</html>

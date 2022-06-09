@@ -1,25 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>PWS</title>
     <link rel="stylesheet" href="indexCss.css">
-
-    <script>
-        var popupWidth = 400;
-        var popupHeight = 300;
-
-        var popupX = (window.screen.width / 2) - (popupWidth / 2);
-        var popupY = (window.screen.height / 2) - (popupHeight / 2);
-        function add_Category() {
-            window.open('Create_Category.html', '', 'status=no, toolbar=no, scrollbars=no, location=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
-        }
-
-        function add_ToDoList() {
-            window.open('Create_ToDoList.html', '', 'status=no, toolbar=no, scrollbars=no, location=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
-        }
-    </script>
+    <link rel="stylesheet" href="Add.css" />
 </head>
+
 <body>
     <div class="indexContainer">
         <header class="headerContainer">
@@ -30,10 +18,9 @@
             <div class="menubox">
                 <h1>&nbsp;</h1>
                 <ul>
-                    <li><a href="#">LOGOUT</a></li>
-                    <li><a href="#" onclick="add_Category()">카테고리</a></li>
+                    <li><a href="#" onclick="kakaoLogout()">LOGOUT</a></li>
                     <li><a href="./Calendar/examples/month-view.html">캘린더</a></li>
-                  </ul>
+                </ul>
             </div>
         </header>
 
@@ -44,10 +31,122 @@
                 <div class="checkText"></div>
                 <div class="ToDoList"></div>
                 <div class="addToDo">
-                    <input type="button" value="+" onclick="add_ToDoList()">
+                    <input type="button" class="ToDo_add_Btn" value="+">
                 </div>
             </div>
         </main>
     </div>
+        <div class="modal hidden">
+            <div class="tabmenu">
+                <ul>
+                  <li id="tab1" class="btnCon">
+                    <a class="btn1" href="#tab1">카테고리</a>
+                    <form action="Index.html" method="get">
+                      <div class="tabCon">
+                        <table border="0" id="createCategory">
+                          <tr>
+                            <td align="right">카테고리명 :</td>
+                            <td>
+                              <input type="text" size="5" id="categoryName" placeholder="입력"/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="right">색상 :</td>
+                            <td>
+                              <input type="color" id="categoryColor" value="#ff0000"/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="2" align="center">
+                              <input type="submit" onclick="popUpClose()" value="추가" />
+                              <input type="button" onclick="popUpClose()" value="취소" />
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </form>
+                  </li>
+                  <li id="tab2" class="btnCon">
+                    <a class="btn2" href="#tab2">일정</a>
+                    <div class="tabCon">
+                      <table border="0" id="createTodo">
+                        <tr>
+                          <td align="right">내용 :</td>
+                          <td><input type="text" placeholder="입력" /></td>
+                        </tr>
+                        <tr>
+                          <td align="right">날짜 :</td>
+                          <td><input type="date" id="todoTime" /></td>
+                        </tr>
+                        <tr>
+                          <td align="right">카테고리 :</td>
+                          <td>
+                            <select name="selCategory" id="selCategory">
+                              <option value="default">기본</option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" align="center">
+                            <input type="submit" value="등록" />
+                            <input type="button" onclick="popUpClose()" value="취소" />
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+        </div>
+
+    <script>
+        const popUpOpen = () => {
+            document.querySelector(".modal").classList.remove("hidden");
+        }
+
+        const popUpClose = () => {
+            document.querySelector(".modal").classList.add("hidden");
+        }
+
+        document.querySelector(".ToDo_add_Btn").addEventListener("click", popUpOpen);
+        document.querySelector(".ToDo_close_Btn").addEventListener("click", popUpClose);
+    </script>
+
+<script defer src="/__/firebase/9.8.2/firebase-app.js"></script>
+<script defer src="/__/firebase/9.8.2/firebase-database.js"></script>
+<script defer src="/__/firebase/9.8.2/firebase-firestore.js"></script>
+<script defer src="/__/firebase/9.8.2/firebase-storage.js"></script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBOPWe8P5etKD92VXJHg1jL8q85h5a6UOw",
+      authDomain: "personal-web-scheduler.firebaseapp.com",
+      databaseURL: "https://personal-web-scheduler-default-rtdb.firebaseio.com",
+      projectId: "personal-web-scheduler",
+      storageBucket: "personal-web-scheduler.appspot.com",
+      messagingSenderId: "618557689478",
+      appId: "1:618557689478:web:62d499aad19e5c5d200b07"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        Kakao.init('76c14855a1c7a486b0f8509613eb8a86');
+        function kakaoLogout() {
+        Kakao.Auth.logout(function() {
+          location.href="http://127.0.0.1:5500/WebContent/Login.html";
+        });
+      }
+    </script>
 </body>
+
 </html>
