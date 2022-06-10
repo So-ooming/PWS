@@ -5,10 +5,17 @@
     <title>카테고리/일정 추가</title>
     <link rel="stylesheet" href="Add.css" />
     <link rel="shortcut icon" href="favicon.ico" />
+    <script src="index.html"></script>
     <script>
       location.href = "#tab1";
       function popUpClose(){
         window.close();
+      }
+      function pop(){
+        localStorage.setItem('ctgName', categoryName.value);
+        localStorage.setItem('ctgColor', categoryColor.value);
+        load();
+        popUpClose();
       }
     </script>
   </head>
@@ -17,7 +24,7 @@
       <ul>
         <li id="tab1" class="btnCon">
           <a class="btn1" href="#tab1">카테고리</a>
-          <form action="Index.html" method="get">
+          <form>
             <div class="tabCon">
               <table border="0" id="createCategory">
                 <tr>
@@ -34,7 +41,7 @@
                 </tr>
                 <tr>
                   <td colspan="2" align="center">
-                    <input type="submit" onclick="popUpClose()" value="추가" />
+                    <input type="submit" onclick="pop()" value="추가" />
                     <input type="button" onclick="popUpClose()" value="취소" />
                   </td>
                 </tr>

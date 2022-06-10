@@ -4,10 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>PWS</title>
-    <link rel="stylesheet" href="indexCss.css">
+    <link rel="stylesheet" href="index.css">
     <link rel="shortcut icon" href="favicon.ico" />
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"> -->
-
+    <script>
+        function load(){
+            var name = localStorage.getItem('ctgName');
+            var color = localStorage.getItem('ctgColor');
+            var ctgBox = document.getElementById('categoryBox');
+            var newDiv = document.createElement('div');
+            //name.style.textColor = color;
+            newDiv.innerHTml += name.value;
+            ctgBox.appendChild(newDiv);
+        }
+    </script>
 </head>
 
 <body>
@@ -28,6 +38,7 @@
 
         <main class="mainContainer">
             <div class="Category">
+                <p id="categoryBox"></p>
             </div>
             <div class="ToDoListContainer">
                 <div class="checkText"></div>
