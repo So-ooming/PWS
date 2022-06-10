@@ -25,6 +25,12 @@ body {
     line-height: 55px;
 }
 
+.logobox img {
+  width: 27%;
+  height: 100%;
+  background-color: inherit;
+}
+
 .menubox {
     width: 70%;
     height: 100%;
@@ -61,7 +67,7 @@ ul {
     display: flex;
   }
 
-  a {
+  ul li a {
     display: block;
     text-align: center;
     text-decoration: none;
@@ -74,8 +80,9 @@ ul {
     font-size: 10px;
   }
   
-  a:hover {
+  ul li a:hover {
     background: rgb(253, 115, 65);
+    color: black;
   }
 
   .addToDo {
