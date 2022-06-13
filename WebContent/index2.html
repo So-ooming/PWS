@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PWS</title>
+    <link rel="stylesheet" href="indexCss.css">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"> -->
+
+</head>
+
+<body>
+    <div class="indexContainer">
+        <header class="headerContainer">
+            <div class="logobox">
+                <img src="logo.ico">
+            </div>
+
+            <div class="menubox">
+                <h1>&nbsp;</h1>
+                <ul>
+                    <li><a href="#" onclick="kakaoLogout()">LOGOUT</a></li>
+                    <li><a href="./Calendar/examples/month-view.html">캘린더</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <main class="mainContainer">
+            <div class="Category" onclick="load_ctg()">
+              </div>
+              <div class="ToDoListContainer">   
+                <div class="ToDoList">
+                  <p id="tB"></p>
+                </div>
+      
+                <div class="addToDo">
+                    <input type="button" onclick="Add()" class="ToDo_add_Btn" value="+">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function Add() {
+            let options = "toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=333 height=190, top=250,left=600";
+            window.open("./Add.html", "", options);
+        }
+    </script>
+
+<script src="/__/firebase/8.6.5/firebase-app.js"></script>
+<script src="/__/firebase/8.6.5/firebase-database.js"></script>
+<script src="/__/firebase/8.6.5/firebase-firestore.js"></script>
+<script src="/__/firebase/8.6.5/firebase-storage.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+
+<script>
+   var firebaseConfig = {
+      apiKey: "AIzaSyBSqonCBQaOdjCVqn9EXm6A-iJG1p9o9zQ",
+      authDomain: "personal-web-scheduler-37f2b.firebaseapp.com",
+      projectId: "personal-web-scheduler-37f2b",
+      storageBucket: "personal-web-scheduler-37f2b.appspot.com",
+      messagingSenderId: "303796042261",
+      appId: "1:303796042261:web:9f26cfda3345ab0ec3ac1c"
+    };
+  
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    var { name, email } = JSON.parse(sessionStorage.getItem("user-info"));
+
+    const db = firebase.firestore();
+
+    function load_ctg() {
+        db.collection('User').doc(email).collection(name).get().then((result)=>{
+            result.forEach((doc)=>{
+                console.log(doc.data());
+                var templite = `<input type="button" style="background-Color: ${doc.data().색상};" class="CategoryList" value="${doc.data().카테고리명}">`;
+                $('.Category').append(templite);
+            })
+        })
+        // var ctgBox = document.getElementById("cB");
+        // var newDiv = document.createElement("div");
+        // newDiv.innerHTML += name;
+        // newDiv.style.backgroundColor = color;
+        // ctgBox.appendChild(newDiv);
+      }
+      function load1() {
+        // var con = localStorage.getItem("todoList");
+        // var time = "마감일 : " + localStorage.getItem("todoTime");
+        // var ctg = localStorage.getItem("selCategory");
+        // var tdBox = document.getElementById("tB");
+        // var newDiv = document.createElement("div");
+        // var param = con + "<br>" + time;
+        // newDiv.innerHTML += param;
+        // tdBox.appendChild(newDiv);
+      }
+
+
+    function Add() {
+        let options = "toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=333 height=190, top=250,left=600";
+        window.open("./Add.html", "", options);
+    }
+
+        Kakao.init('76c14855a1c7a486b0f8509613eb8a86');
+        function kakaoLogout() {
+        Kakao.Auth.logout(function() {
+            location.href="http://localhost:5000/index.html";
+        });
+      }
+    </script>
+</body>
+
+</html>

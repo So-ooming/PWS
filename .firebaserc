@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "personal-web-scheduler"
-  }
+    "default": "personal-web-scheduler-37f2b",
+    "PWS": "personal-web-scheduler-37f2b"
+  },
+  "targets": {}
 }

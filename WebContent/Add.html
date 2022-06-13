@@ -1,41 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>카테고리/일정 추가</title>
     <link rel="stylesheet" href="Add.css" />
     <link rel="shortcut icon" href="favicon.ico" />
-    <script>
-      location.href = "#tab1";
-      function popUpClose(){
-        window.close();
-      }
-    </script>
   </head>
   <body>
     <div class="tabmenu">
       <ul>
         <li id="tab1" class="btnCon">
           <a class="btn1" href="#tab1">카테고리</a>
-          <form action="Index.html" method="get">
+          <form>
             <div class="tabCon">
               <table border="0" id="createCategory">
                 <tr>
                   <td align="right">카테고리명 :</td>
                   <td>
-                    <input type="text" size="5" id="categoryName" placeholder="입력"/>
+                    <input type="text" size="5" id="ctgName" placeholder="입력"/>
                   </td>
                 </tr>
                 <tr>
                   <td align="right">색상 :</td>
                   <td>
-                    <input type="color" id="categoryColor" value="#ff0000"/>
+                    <input type="color" id="ctgColor" value="#ff0000"/>
                   </td>
                 </tr>
                 <tr>
                   <td colspan="2" align="center">
-                    <input type="submit" onclick="popUpClose()" value="추가" />
-                    <input type="button" onclick="popUpClose()" value="취소" />
+                    <input type="submit" onclick="pop()" value="추가" />
+                    <input type="button" onclick="popUpClose()" value="닫기" />
                   </td>
                 </tr>
               </table>
@@ -48,11 +42,13 @@
             <table border="0" id="createTodo">
               <tr>
                 <td align="right">내용 :</td>
-                <td><input type="text" placeholder="입력" /></td>
+                <td><input type="text" id="todoList" placeholder="입력" /></td>
               </tr>
               <tr>
                 <td align="right">날짜 :</td>
-                <td><input type="datetime-local" id="todoTime" /></td>
+                <td>
+                  <input type="date" id="todoTime"/>
+                </td>
               </tr>
               <tr>
                 <td align="right">카테고리 :</td>
@@ -64,7 +60,7 @@
               </tr>
               <tr>
                 <td colspan="2" align="center">
-                  <input type="submit" value="등록" />
+                  <input type="submit" value="등록" onclick="pop2()"/>
                   <input type="button" onclick="popUpClose()" value="취소" />
                 </td>
               </tr>
@@ -73,5 +69,48 @@
         </li>
       </ul>
     </div>
+
+    <script src="/__/firebase/8.6.5/firebase-app.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-database.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-firestore.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-storage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+
+      var firebaseConfig = {
+      apiKey: "AIzaSyBSqonCBQaOdjCVqn9EXm6A-iJG1p9o9zQ",
+      authDomain: "personal-web-scheduler-37f2b.firebaseapp.com",
+      projectId: "personal-web-scheduler-37f2b",
+      storageBucket: "personal-web-scheduler-37f2b.appspot.com",
+      messagingSenderId: "303796042261",
+      appId: "1:303796042261:web:9f26cfda3345ab0ec3ac1c"
+    };
+  
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+      // 이메일, 이름 값 받아오기
+      var { name, email } = JSON.parse(sessionStorage.getItem("user-info"));
+
+      location.href = "#tab1";
+      function popUpClose(){
+        window.close();
+      }
+      function pop(){
+        var ctgName = document.getElementById('ctgName').value;
+        var ctgColor = document.getElementById('ctgColor').value;
+        db.collection('User').doc(email).collection(name).doc(ctgName).set({카테고리명: ctgName, 색상: ctgColor})
+        // localStorage.setItem('ctgName', categoryName.value);
+        // localStorage.setItem('ctgColor', categoryColor.value);
+        //popUpClose(); 
+      }
+      function pop2(){
+        localStorage.setItem('todoList', todoList.value);
+        localStorage.setItem('todoTime', todoTime.value);
+        localStorage.setItem('selCategory', selCategory.value);
+        popUpClose();
+      }
+    </script>
   </body>
 </html>
