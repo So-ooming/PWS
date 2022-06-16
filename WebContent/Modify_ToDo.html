@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>카테고리/일정 추가</title>
+    <title>일정 수정</title>
     <link rel="stylesheet" href="Add.css" />
     <link rel="shortcut icon" href="favicon.ico" />
   </head>
@@ -10,34 +10,7 @@
     <div class="tabmenu">
       <ul>
         <li id="tab1" class="btnCon">
-          <a class="btn1" href="#tab1">카테고리</a>
-          <form>
-            <div class="tabCon">
-              <table border="0" id="createCategory">
-                <tr>
-                  <td align="right">카테고리명 :</td>
-                  <td>
-                    <input type="text" size="5" id="ctgName" placeholder="입력"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">색상 :</td>
-                  <td>
-                    <input type="color" id="ctgColor" value="#ff0000"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" align="center">
-                    <input type="submit" onclick="pop()" value="추가" />
-                    <input type="button" onclick="popUpClose()" value="닫기" />
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </form>
-        </li>
-        <li id="tab2" class="btnCon">
-          <a class="btn2" href="#tab2">일정</a>
+          <a class="btn1" href="#tab1">일정 수정</a>
           <div class="tabCon">
             <table border="0" id="createTodo">
               <tr>
@@ -59,7 +32,7 @@
               </tr>
               <tr>
                 <td colspan="2" align="center">
-                  <input type="submit" value="등록" onclick="pop2()"/>
+                  <input type="submit" value="등록" onclick="pop2(event)"/>
                   <input type="button" onclick="popUpClose()" value="닫기" />
                 </td>
               </tr>
@@ -91,15 +64,14 @@
     const db = firebase.firestore();
     var { name, email } = JSON.parse(sessionStorage.getItem("user-info"));
     var categoryField = db.collection('User').doc(email).collection(name);
-   // var todoListField = db.collection('User').doc(email).collection(name).doc(ctgName);
       // 이메일, 이름 값 받아오기
 
       window.onload = function load_option() {
         categoryField.get().then((result)=>{
           result.forEach((doc)=>{
-                console.log(doc.data());
+                // console.log(doc.data());
                 var templite = `<option value="${doc.data().카테고리명}">${doc.data().카테고리명}</option>`;
-                console.log(templite);
+                // console.log(templite);
                 $('.selCategory').append(templite);
             })
         })
@@ -109,19 +81,19 @@
       function popUpClose(){
         window.close();
       }
-      function pop(){
-        var ctgName = document.getElementById('ctgName').value;
-        var ctgColor = document.getElementById('ctgColor').value;
-        categoryField.doc(ctgName).set({카테고리명: ctgName, 색상: ctgColor})
-        categoryField.doc(ctgName).collection(ctgName)
-        setTimeout(() => location.reload("./index2.html"), 400);
-        setTimeout(() => popUpClose(), 500);
-      }
-      function pop2(){
+
+      function pop2(e){
         var todoList = document.querySelector('#todoList').value;
         var todoTime = document.querySelector('#todoTime').value;
         var selCategory = document.querySelector('.selCategory').value;
-
+        var { todoname } = JSON.parse(sessionStorage.getItem("todo-info"));
+        var { ctg } = JSON.parse(sessionStorage.getItem("ctg-info"));
+        // console.log(todoname);
+        // console.log(ctg);
+        
+        categoryField.doc(ctg).collection(ctg).doc(todoname).delete().then(()=>{
+          location.reload();
+        })
         categoryField.doc(selCategory).collection(selCategory).doc(todoList).set({일정내용: todoList, 마감일: todoTime})
         setTimeout(() => popUpClose(), 500);
       }

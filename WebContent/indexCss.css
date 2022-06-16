@@ -47,10 +47,50 @@ body {
 }
 
 .Category {
+  display: block;
     Width: 30%;
     height: 100%;
     background-color: #add3fc;
 }
+
+.CategoryList {
+  display: inline;
+  width: 90px;
+  height: 50px;  
+}
+
+.category_color {
+  width: 50%;  
+  font-size: 20px;
+  background-color: inherit;
+}
+
+.category_text input[type="button"] {
+  width: 50%;  
+  font-size: 20px;
+  background-color: inherit;
+  border: 0;
+  border-radius: 5px;
+}
+
+.category_text input[type="button"]:hover {
+  color: #6caef5;
+}
+
+.CategoryList #del_cabtn {
+  display: none;
+}
+
+.CategoryList:hover #del_cabtn {
+  display: flex;
+  position: absolute;
+  right: 10px;
+  align-items: right;
+  width: 5%;  
+  border: 0;
+  outline: 0;
+}
+
 
 .ToDoListContainer {
     width: 70%;
@@ -58,6 +98,29 @@ body {
     background-color: inherit;
     position: relative;
     z-index: 1;
+}
+
+.ToDoList {
+  width: 470px;
+  height: 50px;
+  display: flex;
+  background-color: inherit;
+  margin: 20px 0 0 0;
+  
+}
+
+.ToDoList_text {
+  width: 250px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.ToDoList_btn {
+  text-align: right;
+  width: 200px;
+  line-height: 50px;
+  background-color: inherit;
 }
 
 ul {
@@ -108,3 +171,11 @@ ul {
   .addToDo input[type=button]:hover {
     transform: scale(1.05);
   }
+
+.login {
+  margin: 0 auto;
+}
+
+.hidden {
+  display: none;
+}

@@ -5,10 +5,15 @@
   <meta charset="UTF-8">
   <title>PWS LOGIN</title>
   <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" href="indexCss.css">
 </head>
 
 <body>
+  <div class="login" style="display: block;">
+  <img src="logo.ico"/> <p></p>
+  <span style="font-size: 30px;">Personal Web Scheduler</span> <p></p>
   <a href="#" onclick="kakaoLogin()"><img src="kakaologin.png"></a>
+</div>
   <!-- 파이어 베이스 스크립트 -->
   <script src="/__/firebase/8.6.5/firebase-app.js"></script>
   <script src="/__/firebase/8.6.5/firebase-database.js"></script>
@@ -59,7 +64,7 @@
               db.collection('User').doc(user_email).set({ 이름 : user_name, 이메일 : user_email})
               db.collection('User').doc(user_email).collection(user_name).doc('예시1').set({카테고리명: '학교', 색상: 'RED'})
               db.collection('User').doc(user_email).collection(user_name).doc('카테고리').collection('일정').doc('일정1').set({일정내용: '과제', 마감일: '2022년6월13일'})
-              location.href = "index2.html";
+              setTimeout(() => location.href = "index2.html", 3000);
             },
             fail: function (error) {
               console.log(error);

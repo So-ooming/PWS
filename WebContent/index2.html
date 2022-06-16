@@ -6,7 +6,7 @@
     <title>PWS</title>
     <link rel="stylesheet" href="indexCss.css">
     <link rel="shortcut icon" href="favicon.ico" />
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"> -->
+    
 
 </head>
 
@@ -27,13 +27,9 @@
         </header>
 
         <main class="mainContainer">
-            <div class="Category" onclick="load_ctg()">
-              </div>
-              <div class="ToDoListContainer">   
-                <div class="ToDoList">
-                  <p id="tB"></p>
-                </div>
-      
+            <div class="Category">
+            </div>
+            <div class="ToDoListContainer">
                 <div class="addToDo">
                     <input type="button" onclick="Add()" class="ToDo_add_Btn" value="+">
                 </div>
@@ -41,75 +37,139 @@
         </main>
     </div>
 
+    <script src="/__/firebase/8.6.5/firebase-app.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-database.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-firestore.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-storage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+
     <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyBSqonCBQaOdjCVqn9EXm6A-iJG1p9o9zQ",
+            authDomain: "personal-web-scheduler-37f2b.firebaseapp.com",
+            projectId: "personal-web-scheduler-37f2b",
+            storageBucket: "personal-web-scheduler-37f2b.appspot.com",
+            messagingSenderId: "303796042261",
+            appId: "1:303796042261:web:9f26cfda3345ab0ec3ac1c"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        const db = firebase.firestore();
+        var {
+            name,
+            email
+        } = JSON.parse(sessionStorage.getItem("user-info"));
+        var categoryField = db.collection('User').doc(email).collection(name);
+        var category_text = document.querySelector('.category_text');
+        var ToDoListContainer = document.querySelector('.ToDoListContainer');
+
+
+        window.onload = function load_ctg() {
+            db.collection('User').doc(email).collection(name).get().then((result) => {
+                result.forEach((doc) => {
+                    var templite = `<div class="CategoryList" id="${doc.data().카테고리명}">
+                    <span class="category_color" style="color: ${doc.data().색상};">●
+                        </span>
+                        <input type="button" onclick="load_ToDoList(event)" class="category_text" value="${doc.data().카테고리명}">
+                        <input type="button" onclick="del_Category(event)" value="삭제"><p></p>
+                        </div>`;
+                    $('.Category').append(templite);
+                })
+            })
+        }
+
+        function load_ToDoList(e) {
+            var mytarget = $(e.target.parentNode);
+            var mytarget2 = mytarget[0].id;
+            window.sessionStorage.removeItem('ctg-info');
+            const ctgInfo = {
+                ctg: mytarget2,
+            }
+            sessionStorage.setItem("ctg-info", JSON.stringify(ctgInfo));
+
+            while (document.querySelector('.ToDoList')) {
+                var ToDoList = document.querySelector('.ToDoList');
+                ToDoListContainer.removeChild(ToDoList);
+            } 
+
+            categoryField.doc(mytarget2).collection(mytarget2).get().then((result) => {
+                result.forEach((doc) => {
+                    var templite = `<div class="ToDoList" id="${doc.data().일정내용}">
+                    <div class="ToDoList_text">
+                        <span>${doc.data().일정내용}</span><br>
+                        <span>${doc.data().마감일}</span>
+                    </div>
+                    <div class="ToDoList_btn">
+                        <input type="button" class="todo_modibtn" value="수정" onclick="Modify(event)">
+                        <input type="button" class="todo_delbtn" value="삭제" onclick="Delete(event)">
+                    </div>
+                </div>`;
+                    $('.ToDoListContainer').append(templite);
+                })
+            })
+
+        }
+
         function Add() {
-            let options = "toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=333 height=190, top=250,left=600";
+            let options =
+                "toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=333 height=190, top=250,left=600";
             window.open("./Add.html", "", options);
         }
-    </script>
 
-<script src="/__/firebase/8.6.5/firebase-app.js"></script>
-<script src="/__/firebase/8.6.5/firebase-database.js"></script>
-<script src="/__/firebase/8.6.5/firebase-firestore.js"></script>
-<script src="/__/firebase/8.6.5/firebase-storage.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+        function Modify(e) {
+            var mytarget3 = $(e.target.parentNode.parentNode);
+            var todo_name = mytarget3[0].id
+            window.sessionStorage.removeItem('todo-info');
+            const todoInfo = {
+                todoname: todo_name,
+            }
+            sessionStorage.setItem("todo-info", JSON.stringify(todoInfo));
+            let options =
+                "toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=333 height=190, top=250,left=600";
+            window.open("./Modify_ToDo.html", "", options);
+        }
 
+        function Delete(e) {
+            var mytarget3 = e.target.parentNode.parentNode;
+            var mytarget3_id = $(e.target.parentNode.parentNode);
+            var mytarget = mytarget3_id[0].id;
+            var { ctg } = JSON.parse(sessionStorage.getItem("ctg-info"));
+            
+            var ToDoListContainer = document.querySelector('.ToDoListContainer');
+            console.log(mytarget);
+            categoryField.doc(ctg).collection(ctg).doc(mytarget).delete().then(()=>{})
+            ToDoListContainer.removeChild(mytarget3);
+        }
 
-<script>
-   var firebaseConfig = {
-      apiKey: "AIzaSyBSqonCBQaOdjCVqn9EXm6A-iJG1p9o9zQ",
-      authDomain: "personal-web-scheduler-37f2b.firebaseapp.com",
-      projectId: "personal-web-scheduler-37f2b",
-      storageBucket: "personal-web-scheduler-37f2b.appspot.com",
-      messagingSenderId: "303796042261",
-      appId: "1:303796042261:web:9f26cfda3345ab0ec3ac1c"
-    };
-  
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+        function del_Category(e) {  // 카테고리 삭제
+            var Category = document.querySelector('.Category');
+            if (confirm("해당 카테고리를 삭제하시겠습니까?"))
+            {
+                var target_ca = e.target.parentNode;
+                var mytarget3 = $(e.target.parentNode);
+                var mytarget3_id = mytarget3[0].id
+                // console.log(mytarget3_id);
 
-    var { name, email } = JSON.parse(sessionStorage.getItem("user-info"));
+                categoryField.doc(mytarget3_id).delete().then(()=>{})
+                Category.removeChild(target_ca);
 
-    const db = firebase.firestore();
-
-    function load_ctg() {
-        db.collection('User').doc(email).collection(name).get().then((result)=>{
-            result.forEach((doc)=>{
-                console.log(doc.data());
-                var templite = `<input type="button" style="background-Color: ${doc.data().색상};" class="CategoryList" value="${doc.data().카테고리명}">`;
-                $('.Category').append(templite);
-            })
-        })
-        // var ctgBox = document.getElementById("cB");
-        // var newDiv = document.createElement("div");
-        // newDiv.innerHTML += name;
-        // newDiv.style.backgroundColor = color;
-        // ctgBox.appendChild(newDiv);
-      }
-      function load1() {
-        // var con = localStorage.getItem("todoList");
-        // var time = "마감일 : " + localStorage.getItem("todoTime");
-        // var ctg = localStorage.getItem("selCategory");
-        // var tdBox = document.getElementById("tB");
-        // var newDiv = document.createElement("div");
-        // var param = con + "<br>" + time;
-        // newDiv.innerHTML += param;
-        // tdBox.appendChild(newDiv);
-      }
-
-
-    function Add() {
-        let options = "toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=333 height=190, top=250,left=600";
-        window.open("./Add.html", "", options);
-    }
+            } else {
+            
+            }
+        }
 
         Kakao.init('76c14855a1c7a486b0f8509613eb8a86');
+
         function kakaoLogout() {
-        Kakao.Auth.logout(function() {
-            location.href="http://localhost:5000/index.html";
-        });
-      }
+            Kakao.Auth.logout(function () {
+                location.href = "http://localhost:5000/index.html";
+            });
+        }
     </script>
 </body>
 
